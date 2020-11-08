@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import math
 
 from sklearn.metrics import roc_auc_score
 
@@ -115,6 +116,7 @@ class RippleNet(nn.Module):
 
             # [batch_size, dim]
             o = (t_emb_list[hop] * probs_expanded).sum(dim=1)
+            o=o/math.sqrt(float(hop)+1)
 
             item_embeddings = self._update_item_embedding(item_embeddings, o)
             o_list.append(o)
